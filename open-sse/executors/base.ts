@@ -237,7 +237,7 @@ export class BaseExecutor {
 
     for (let urlIndex = 0; urlIndex < fallbackCount; urlIndex++) {
       const url = this.buildUrl(model, stream, urlIndex, credentials);
-      const headers = this.buildHeaders(credentials, stream);
+      const headers = this.buildHeaders(credentials, stream, body);
 
       // Append 1M context beta header when [1m] suffix was used
       // Only supported for specific Claude models per Anthropic docs

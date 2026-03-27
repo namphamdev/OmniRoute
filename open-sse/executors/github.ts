@@ -86,8 +86,9 @@ export class GithubExecutor extends BaseExecutor {
     return result;
   }
 
-  buildHeaders(credentials, stream = true) {
+  buildHeaders(credentials, stream = true, body) {
     const token = credentials.copilotToken || credentials.accessToken;
+    const isAgent = body?.messages?.length > 2 || body?.input?.length > 2;
     return {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
@@ -100,7 +101,7 @@ export class GithubExecutor extends BaseExecutor {
       "x-request-id":
         crypto.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2)}`,
       "x-vscode-user-agent-library-version": "electron-fetch",
-      "X-Initiator": "user",
+      "X-Initiator": isAgent ? "assistant" : "user",
       Accept: stream ? "text/event-stream" : "application/json",
     };
   }
